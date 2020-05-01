@@ -1,9 +1,9 @@
 #!/bin/bash
 
 HEADLESS=false
-RELEASE_NODE_SUITE=`cat ~/.ultimated/packages/ultimated-core/latest/release-node-suite`
-PROJECT_VERSION=`cat ./.ultimated/release-version`
-RELEASE_VERSION=`cat ~/.ultimated/packages/ultimated-core/latest/release-version`
+RELEASE_NODE_SUITE=`cat ~/.ultimated-browser/packages/ultimated-core/latest/release-node-suite`
+PROJECT_VERSION=`cat ./.ultimated-browser/release-version`
+RELEASE_VERSION=`cat ~/.ultimated-browser/packages/ultimated-core/latest/release-version`
 ARGUMENTS=$@
 
 while test $# -gt 0; do
@@ -19,25 +19,25 @@ while test $# -gt 0; do
 done
 
 if [ $PROJECT_VERSION = "0.0.0" ]; then
-    if [ ! -d ~/.ultimated/packages/ultimated-core/latest_oryginal ]; then
-        mv ~/.ultimated/packages/ultimated-core/latest ~/.ultimated/packages/ultimated-core/latest_oryginal
+    if [ ! -d ~/.ultimated-browser/packages/ultimated-core/latest_oryginal ]; then
+        mv ~/.ultimated-browser/packages/ultimated-core/latest ~/.ultimated-browser/packages/ultimated-core/latest_oryginal
     fi
 
-    rm -rf ~/.ultimated/packages/ultimated-core/0.0.0
-    bash ~/.ultimated/packages/ultimated-core/latest_oryginal/update "0.0.0" "latest"
+    rm -rf ~/.ultimated-browser/packages/ultimated-core/0.0.0
+    bash ~/.ultimated-browser/packages/ultimated-core/latest_oryginal/update "0.0.0" "latest"
 else
     if [ $PROJECT_VERSION != "0.0.0" ]; then
         if [ $RELEASE_VERSION = "0.0.0" ]; then
-            rm ~/.ultimated/packages/ultimated-core/latest
-            mv ~/.ultimated/packages/ultimated-core/latest_oryginal ~/.ultimated/packages/ultimated-core/latest
+            rm ~/.ultimated-browser/packages/ultimated-core/latest
+            mv ~/.ultimated-browser/packages/ultimated-core/latest_oryginal ~/.ultimated-browser/packages/ultimated-core/latest
         fi
     fi
 fi
 
 if [ $HEADLESS = false ]; then
     echo "Ultimated running in normal mode (project version $PROJECT_VERSION)"
-    ~/.ultimated/packages/node-suites/$RELEASE_NODE_SUITE/bin/node ~/.ultimated/packages/ultimated-core/latest/main.js "$ARGUMENTS"
+    ~/.ultimated-browser/packages/node-suites/$RELEASE_NODE_SUITE/bin/node ~/.ultimated-browser/packages/ultimated-core/latest/main.js "$ARGUMENTS"
 else
     echo "Ultimated running in jenkins/headless mode"
-    xvfb-run -a  ~/.ultimated/packages/node-suites/$RELEASE_NODE_SUITE/bin/node ~/.ultimated/packages/ultimated-core/latest/main.js "$ARGUMENTS"
+    xvfb-run -a  ~/.ultimated-browser/packages/node-suites/$RELEASE_NODE_SUITE/bin/node ~/.ultimated-browser/packages/ultimated-core/latest/main.js "$ARGUMENTS"
 fi
