@@ -1,0 +1,43 @@
+#!/bin/bash
+
+HEADLESS=false
+RELEASE_NODE_SUITE=`cat ~/.ultimated/packages/ultimated-core/latest/release-node-suite`
+PROJECT_VERSION=`cat ./.ultimated/release-version`
+RELEASE_VERSION=`cat ~/.ultimated/packages/ultimated-core/latest/release-version`
+ARGUMENTS=$@
+
+while test $# -gt 0; do
+    case "$1" in
+        --headless)
+                shift
+                HEADLESS=true
+                ;;
+        *)
+                shift
+                ;;
+    esac
+done
+
+if [ $PROJECT_VERSION = "0.0.0" ]; then
+    if [ ! -d ~/.ultimated/packages/ultimated-core/latest_oryginal ]; then
+        mv ~/.ultimated/packages/ultimated-core/latest ~/.ultimated/packages/ultimated-core/latest_oryginal
+    fi
+
+    rm -rf ~/.ultimated/packages/ultimated-core/0.0.0
+    bash ~/.ultimated/packages/ultimated-core/latest_oryginal/update "0.0.0" "latest"
+else
+    if [ $PROJECT_VERSION != "0.0.0" ]; then
+        if [ $RELEASE_VERSION = "0.0.0" ]; then
+            rm ~/.ultimated/packages/ultimated-core/latest
+            mv ~/.ultimated/packages/ultimated-core/latest_oryginal ~/.ultimated/packages/ultimated-core/latest
+        fi
+    fi
+fi
+
+if [ $HEADLESS = false ]; then
+    echo "Ultimated running in normal mode (project version $PROJECT_VERSION)"
+    ~/.ultimated/packages/node-suites/$RELEASE_NODE_SUITE/bin/node ~/.ultimated/packages/ultimated-core/latest/main.js "$ARGUMENTS"
+else
+    echo "Ultimated running in jenkins/headless mode"
+    xvfb-run -a  ~/.ultimated/packages/node-suites/$RELEASE_NODE_SUITE/bin/node ~/.ultimated/packages/ultimated-core/latest/main.js "$ARGUMENTS"
+fi
