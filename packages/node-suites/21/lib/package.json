@@ -48,7 +48,7 @@
     "request": "2.79.0",
     "selenium-screen-master": "^0.4.7",
     "selenium-webdriver": "4.0.0-alpha.7",
-    "shelljs": "0.7.6",
+    "shelljs": "0.8.5",
     "sync-request": "4.1.0",
     "version_compare": "0.0.3"
   }
