@@ -39,7 +39,7 @@
     "forever": "0.15.3",
     "good-mocha-html-reporter": "2.0.1",
     "mocha": "3.5.0",
-    "moment": "2.17.1",
+    "moment": "2.29.2",
     "pixel-diff": "^1.0.1",
     "pixelmatch": "^5.2.0",
     "png-crop": "0.0.1",
